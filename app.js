@@ -6,6 +6,7 @@ const userRoutes = require("./routes/userRoutes");
 const postRoutes = require("./routes/postRoutes")
 const cors = require("cors")
 const authorizeUser = require("./middlewares/authorizeUser")
+const path = require('path');
 
 
 const app = express()
@@ -22,6 +23,13 @@ app.use("/api/posts", postRoutes )
 app.get("/test", authorizeUser, (req, res) => {
     res.status(200).json({ success: true, user: req.user })
 })
+
+
+app.use(express.static(path.join(__dirname,"./client/build")))
+app.get("*",(req,res)=>{
+    res.sendFile(path.join(__dirname,"./client/build","index.html"))
+})
+
 
 
 
